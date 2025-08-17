@@ -2,9 +2,15 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class CalculatorServer {
+
+    private static final int DEFAULT_PORT = 1099;
+    private static final String DEFAULT_NAME = "Calculator";
+    private static final String FACTORY_BIND_NAME = "CalculatorFactory";
+    private static final String PER_CLIENT_PROP = "PER_CLIENT";
+
     public static void main(String[] args) {
-        int port = args.length > 0 ? Integer.parseInt(args[0]) : 1099;
-        String name = args.length > 1 ? args[1] : "Calculator";
+        int port = args.length > 0 ? Integer.parseInt(args[0]) : DEFAULT_PORT;
+        String name = args.length > 1 ? args[1] : DEFAULT_NAME;
 
         try {
             try {
@@ -22,10 +28,10 @@ public class CalculatorServer {
 
             Registry registry = LocateRegistry.getRegistry(port);
             registry.rebind(name, impl); // "Calculator"
-            registry.rebind("CalculatorFactory", factory); // Additional binding
+            registry.rebind(FACTORY_BIND_NAME, factory); // Additional binding
 
-            System.out.println("Server bound as '" + name + "' (PER_CLIENT=" + System.getProperty("PER_CLIENT") + ")");
-            System.out.println("Also bound 'CalculatorFactory' for per-client sessions (bonus).");
+            System.out.println("Server bound as '" + name + "' (PER_CLIENT=" + System.getProperty(PER_CLIENT_PROP) + ")");
+            System.out.println("Also bound '" + FACTORY_BIND_NAME + "' for per-client sessions (bonus).");
             System.out.println("Ready.");
         } catch (Exception e) {
             e.printStackTrace();
