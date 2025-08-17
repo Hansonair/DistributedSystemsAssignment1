@@ -4,13 +4,13 @@ JAVA  ?= java
 SOURCES := $(wildcard *.java)
 CLASSES := $(SOURCES:.java=.class)
 
-# 默认目标：编译所有 .java
+# Default target: compile all .java files
 all: $(CLASSES)
 
 %.class: %.java
 	$(JAVAC) $<
 
-# 可选：运行服务端与客户端（本地测试用）
+# Optional: run server and client (for local testing)
 run-server:
 	$(JAVA) CalculatorServer 1099 Calculator
 
